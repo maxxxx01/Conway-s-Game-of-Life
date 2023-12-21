@@ -2,11 +2,11 @@ import numpy
 
 class Grid:
     def __init__(self, rows, columns):
-        self.rows = clamp(rows, 1, 100)
-        self.columns = clamp(columns, 1, 100)
-        self.init_grid = numpy.random.randint(2, size = (self.rows, self.columns))
-        self.grid = numpy.copy(self.init_grid)
-        self.prev_grid = None
+        self.rows = clamp(rows, 10, 100)
+        self.columns = clamp(columns, 10, 100)
+        
+        self.grid = numpy.random.randint(2, size = (self.rows, self.columns))
+        self.prev_grid = numpy.zeros_like(self.grid)
         
         print("A " + str(self.rows) + " x " + str(self.columns) + " grid has been created.")
     
@@ -16,11 +16,14 @@ class Grid:
     def get_columns(self):
         return self.columns
     
-    def get_element(self, i, j):
-        return self.grid[i, j]
+    def get_num_alives(self):
+        return numpy.count_nonzero(self.grid == 1)
     
-    def is_equal_to_prev(self):
+    def is_equal(self):
         return numpy.array_equal(self.grid, self.prev_grid)
+    
+    def is_alive(self, i, j):
+        return (self.grid[i, j] == 1)
     
     def square_sum(self, i, j):
         return ((self.prev_grid[lclamp(i - 1, 0) : uclamp(i + 2, self.rows), lclamp(j - 1, 0) : uclamp(j + 2, self.columns)].sum()) - self.prev_grid[i, j])
@@ -35,11 +38,11 @@ class Grid:
             for j in range(self.columns):
                 self.grid[i, j] = self.new_state(i, j)
 
-def clamp(num, lower_limit, upper_limit):
-    return min(max(num, lower_limit), upper_limit)
+def clamp(num, lower, upper):
+    return min(max(num, lower), upper)
 
-def lclamp(num, lower_limit):
-    return max(num, lower_limit)
+def lclamp(num, lower):
+    return max(num, lower)
 
-def uclamp(num, upper_limit):
-    return min(num, upper_limit)
+def uclamp(num, upper):
+    return min(num, upper)

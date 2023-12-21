@@ -1,4 +1,8 @@
+from pygame import init
+
 import game
+
+init()
 
 if __name__ == "__main__":
     print("BEGIN OF THE GAME\n")
