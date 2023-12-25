@@ -40,6 +40,12 @@ class Window:
                 if grid.is_alive(i, j):
                     pygame.draw.circle(self.window, self.individual_color, self.get_position(i, j), self.radius)
     
+    def draw_classic_individuals(self, grid):
+        for i in range(grid.get_rows()):
+            for j in range(grid.get_columns()):
+                if grid.is_alive(i, j):
+                    pygame.draw.rect(self.window, self.individual_color, pygame.Rect((self.cell_width * j), (self.cell_height * i), self.cell_width, self.cell_height))
+    
     def draw_connections(self, grid):
         for i in range(grid.get_rows()):
             for j in range(grid.get_columns()):
@@ -49,9 +55,12 @@ class Window:
                             if grid.is_alive(row, column) and ((i != row) or (j != column)):
                                 pygame.draw.line(self.window, self.connection_color, self.get_position(i, j), self.get_position(row, column), self.line_width)
     
-    def draw(self, grid, delay = 140):
-        self.draw_connections(grid)
-        self.draw_individuals(grid)
+    def draw(self, grid, delay = 100, how = "normal"):
+        if how == "normal":
+            self.draw_connections(grid)
+            self.draw_individuals(grid)
+        elif how == "classic":
+            self.draw_classic_individuals(grid)
         
         pygame.display.update()
         pygame.time.wait(delay)
