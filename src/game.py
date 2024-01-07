@@ -18,7 +18,7 @@ def preparation():
     return window, grid
 
 def play(window, grid):
-    window.draw(grid, how = "classic")
+    window.draw(grid)
     print("Number of individuals = " + str(grid.get_num_alives()))
     
     update, it = True, 0
@@ -27,7 +27,7 @@ def play(window, grid):
             grid.update()
             if not grid.is_equal():
                 window.clear()
-                window.draw(grid, how = "classic")
+                window.draw(grid)
                 print("Number of individuals = " + str(grid.get_num_alives()))
                 it += 1
             else:
